@@ -28,3 +28,6 @@ target/
 # Archieve files
 *.zip
 *.tar
+
+# jq (json parse script)
+jp
