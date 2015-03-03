@@ -30,4 +30,9 @@ target/
 *.tar
 
 # jq (json parse script)
-jp
+jq
+
+# Development environment folder/files
+containers_info/
+khan_session_dev
+                 
