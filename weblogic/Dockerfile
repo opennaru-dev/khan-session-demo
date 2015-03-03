@@ -1,4 +1,4 @@
-FROM ljhiyh/centos65
+FROM ljhiyh/centos65:weblogic1213
 
 # Maintainer
 # ----------
@@ -18,30 +18,10 @@ ENV ROOT_PW redhat
 ENV ORACLE_PW oracle
 ENV WLS_DOMAIN_PY create-wls-domain.py
 
-RUN echo root:$ROOT_PW | chpasswd
-
-RUN mkdir -p $ORACLE_HOME/temp  && chmod a+xr $ORACLE_HOME && \ 
-    useradd -b $ORACLE_HOME -m -s /bin/bash oracle && \ 
-    echo oracle:$ORACLE_PW | chpasswd 
-
-# Add files required to build this image
-COPY $WLS_PKG $ORACLE_HOME/
-COPY $WLS_DOMAIN_PY $ORACLE_HOME/
-
-RUN unzip -q $ORACLE_HOME/$WLS_PKG -d $ORACLE_HOME
-
-# Installation of Weblogic 
-WORKDIR $WLS_HOME
-RUN sh configure.sh -silent
-RUN find $ORACLE_HOME/wls12130  -name "*.sh" -exec chmod a+x {} \;
-RUN $WLS_HOME/wlserver/common/bin/wlst.sh -skipWLSModuleScanning $ORACLE_HOME/create-wls-domain.py 
-
-USER root
-RUN chown oracle:oracle -R $ORACLE_HOME
 
 # Expose Node Manager default port, and also default http/https ports for admin console
 EXPOSE 5556 7001 7002
 
 # Define default command to start bash. 
-CMD [$WLS_HOME"/domains/weblogic-test-server/bin/startWebLogic.sh"]
-#CMD ["/bin/bash"]
+#CMD $WLS_HOME"/domains/weblogic-test-server/bin/startWebLogic.sh"
+CMD ["/bin/bash"]

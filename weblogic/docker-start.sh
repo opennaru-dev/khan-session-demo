@@ -38,6 +38,8 @@ done
 
 docker run \
 --name="$HOST_NAME" \
--i -t -h="$HOST_NAME" \
+-dit -h="$HOST_NAME" \
 -P \
+-v ~/khan_session_demo/applications:/home/jhouse/oracle/wls12130/domains/weblogic-test-server/autodeploy \
+-p 17001:7001  \
 $IMAGE  $CMD
